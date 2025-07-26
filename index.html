@@ -38,7 +38,30 @@
 	   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     
+	
+	<script>
+		function validateForm() {
+		  let name = document.forms["contactForm"]["name"].value;
+		  let email = document.forms["contactForm"]["email"].value;
+		  let message = document.forms["contactForm"]["message"].value;
+		  let captcha = document.forms["contactForm"]["captcha"].value;
+		  let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
 
+		  if (!name || !email || !message || !captcha) {
+			alert("Please fill all required fields.");
+			return false;
+		  }
+		  if (!email.match(emailPattern)) {
+			alert("Please enter a valid email.");
+			return false;
+		  }
+		  return true;
+		}
+
+		function reloadCaptcha() {
+		  document.getElementById("captcha-img").src = "captcha.php?" + Math.random();
+		}
+  </script>
  </head>
 
   <body>
@@ -1272,17 +1295,16 @@ Explore the inspiring journey of an award-winning author, cultural visionary, an
                  
                <div class="row">
                  <div class="contact-us-detail"><a href="mailto:truptisakaria@gmail.com">truptisakaria@gmail.com</a></div>
-                  <form class="contact-us pattern-bg">
-                    
-					  <div class="col-sm-6">
+                  <form class="contact-us pattern-bg" name="contactForm" action="contact.php" method="POST" onsubmit="return validateForm();">
+                     <div class="col-sm-6">
 						<div class="form-group">
-						  <input type="text" id="name" class="form-control" placeholder="Your Name">
+						  <input type="text" id="name" class="form-control" placeholder="Your Name" required>
 						 </div>
                         </div>
 								
                        <div class="col-sm-6">
 					    <div class="form-group">
-						 <input type="email" id="email" class="form-control" placeholder="Your Email">
+						 <input type="email" id="email" class="form-control" placeholder="Your Email" required>
 						 </div>
                         </div>
                         
@@ -1313,10 +1335,18 @@ Explore the inspiring journey of an award-winning author, cultural visionary, an
 								
                        <div class="col-sm-12">
 					    <div class="textarea-message form-group">
-					      <textarea id="message" class="textarea-message form-control" placeholder="Your Message" rows="5"></textarea>
+					      <textarea id="message" class="textarea-message form-control" placeholder="Your Message" rows="5" required></textarea>
 						  </div>
                          </div>
                    
+						<div class="col-sm-12">
+					    <div class="textarea-message form-group">
+							<img src="captcha.php" id="captcha-img" alt="captcha"><br>
+							<input type="text" name="captcha" placeholder="Enter CAPTCHA" required>
+							<button type="button" onclick="reloadCaptcha()">Reload CAPTCHA</button><br><br>
+						</div>
+                        </div>
+				   
                    
                     <div class="text-center">      
 		               <button type="submit" class="button button-style button-style-dark button-style-color-2">Submit</button>
