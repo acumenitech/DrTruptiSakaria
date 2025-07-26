@@ -8,6 +8,7 @@ require 'phpmailer/src/SMTP.php';
 
 session_start();
 
+
 echo "page call start!";
 
 if ($_POST['captcha'] != $_SESSION['captcha']) {
